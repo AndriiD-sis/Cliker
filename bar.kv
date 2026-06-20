@@ -1,0 +1,124 @@
+<RoundButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    btn_color: 1, 1, 1, 1
+    btn_down_color: 1, 1, 1, 0.7
+    radius: [0, 0, 0, 0]
+    canvas.before:
+        Color:
+            rgba: self.btn_down_color if self.state[0] == "d" else self.btn_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.radius if self.radius else [0]
+<RoundBox@BoxLayout>:
+    box_color: 1, 1, 1, 1
+    r: 0
+    canvas.before:
+        Color:
+            rgba: self.box_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [self.r]
+<RoundFloat@FloatLayout>:
+    float_color: 1, 1, 1, 1
+    r_f: 0
+    canvas.before:
+        Color:
+            rgba: self.float_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [self.r_f]
+
+<BarScreen>:
+    FloatLayout:
+        id: bottom_bar_layout
+        RoundBox:
+            box_color: (0, 0, 0, 1) if app.theme == 'light' else (1, 1, 1, 1)
+            r: 15
+            size_hint: 0.94, 0.08
+            pos_hint: {'center_x': 0.5, 'center_y': 0.05}
+            spacing: 2
+            RoundButton:
+                btn_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                btn_down_color: (1, 1, 1, 0.7) if app.theme == 'light' else (0.165, 0.184, 0.220, 0.7)
+                radius: [15, 0, 0, 15]
+                on_press: root.go_to_game()
+                Image:
+                    source: 'image/home.png' if app.theme == 'light' else 'image/home_white.png'
+                    center: self.parent.center
+                    size: self.parent.width, self.parent.height
+                    pos: self.parent.center_x - self.width / 2, self.parent.center_y - self.height / 2
+            RoundButton:
+                btn_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                btn_down_color: (1, 1, 1, 0.7) if app.theme == 'light' else (0.165, 0.184, 0.220, 0.7)
+                radius: [0, 0, 0, 0]
+                on_press: root.go_to_shop()
+                Image:
+                    source: 'image/shopping-cart.png' if app.theme == 'light' else 'image/shopping-cart_white.png'
+                    center: self.parent.center
+                    size: self.parent.width, self.parent.height
+                    pos: self.parent.center_x - self.width / 2, self.parent.center_y - self.height / 2
+            RoundButton:
+                btn_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                btn_down_color: (1, 1, 1, 0.7) if app.theme == 'light' else (0.165, 0.184, 0.220, 0.7)
+                radius: [0, 0, 0, 0]
+                on_press: root.go_to_settings()
+                Image:
+                    source: 'image/settings.png' if app.theme == 'light' else 'image/settings_white.png'
+                    center: self.parent.center
+                    size: self.parent.width, self.parent.height
+                    pos: self.parent.center_x - self.width / 2, self.parent.center_y - self.height / 2
+            RoundButton:
+                btn_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                btn_down_color: (1, 1, 1, 0.7) if app.theme == 'light' else (0.165, 0.184, 0.220, 0.7)
+                radius: [0, 15, 15, 0]
+                on_press: root.show_exit_panel()
+                Image:
+                    source: 'image/exit.png' if app.theme == 'light' else 'image/exit_white.png'
+                    center: self.parent.center
+                    size: self.parent.width, self.parent.height
+                    pos: self.parent.center_x - self.width / 2, self.parent.center_y - self.height / 2
+    Button:
+        id: blocker
+        size_hint: 0, 0
+        background_color: (0.5, 0.5, 0.5, 1) if app.theme == 'light' else (0.118, 0.133, 0.165, 1)
+        opacity: 0
+        disabled: True
+    RoundFloat:
+        id: panel_for_exit
+        float_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+        r_f: 15
+        size_hint: 0, 0
+        opacity: 0
+        pos_hint: {'center_x': 0.5, 'center_y': 0.51}
+        disabled: True
+        Label:
+            text: 'Вийти з гри?'
+            font_size: 30
+            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+            pos_hint: {'x': 0, 'y': 0.2}
+        Label:
+            text: 'Ви дійсно хочете вийти?'
+            font_size: 20
+            bold: True
+            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+            pos_hint: {'x': 0, 'y': -0.04}
+        RoundButton:
+            text: 'Так!'
+            btn_color: 0, 1, 0, 0.7
+            btn_down_color: 0, 1, 0, 0.7
+            radius: [10, 10, 10, 10]
+            size_hint: 0.4, 0.22
+            pos_hint: {'x': 0.05, 'y': 0.05}
+            on_press: root.exit_app()
+        RoundButton:
+            text: 'Ні!'
+            btn_color: 1, 0, 0, 0.7
+            btn_down_color: 1, 0, 0, 0.7
+            radius: [10, 10, 10, 10]
+            size_hint: 0.4, 0.22
+            pos_hint: {'right': 0.95, 'y': 0.05}
+            on_press: root.hide_exit_panel()

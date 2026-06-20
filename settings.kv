@@ -1,0 +1,242 @@
+<SettingsScreen>:
+    FloatLayout:
+        Label:
+            id: settings_label
+            text: 'Налаштування'
+            bold: True
+            font_size: 35
+            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.955}
+        BoxLayout:
+            size_hint: 0.94, 0.8
+            orientation: 'vertical'
+            spacing: 15
+            pos_hint: {'center_x': 0.5, 'center_y': 0.515}
+            #wb1 звук
+            RoundBox:
+                padding: 15
+                orientation: 'vertical'
+                box_color: (1, 1, 1, 1) if app.theme == 'light' else (0.141, 0.161, 0.200, 1)
+                r: 10
+                Label:
+                    id: sound_text
+                    text: 'Звук'
+                    font_size: 30
+                    bold: True
+                    color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                    size_hint: 1, None
+                    height: 30
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                #ins1
+                BoxLayout:
+                    size_hint: 1, 0.8
+                    orientation: 'vertical'
+                    pos_hint: {'center_x': 0.5}
+                    #bs1
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        padding: 0, 0, 30, 0
+                        spacing: 15
+                        Image:
+                            source: 'image/music-player.png' if app.theme == 'light' else 'image/music-player_white.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: music_text
+                            text: 'Музика'
+                            font_size: 25
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint: 1, 1
+                            text_size: self.size
+                        Switch:
+                            size_hint: None, 1
+                            width: 49
+                            active: True
+                            on_active: root.background_music(self.active)
+                    #bs2
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        padding: 0, 0, 30, 0
+                        spacing: 15
+                        Image:
+                            source: 'image/speaker-filled-audio-tool.png' if app.theme == 'light' else 'image/speaker-filled-audio-tool_white.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: soundeffects_text
+                            text: 'Звукові ефекти'
+                            font_size: 23
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint: 1, 1
+                            text_size: self.size
+                        Switch:
+                            size_hint: None, 1
+                            width: 49
+                            active: True
+                            on_active: root.soundeffects(self.active)
+                    #bs3
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        spacing: 15
+                        Image:
+                            source: 'image/wave-sound.png' if app.theme == 'light' else 'image/wave-sound_whitte.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: loudness_text
+                            text: 'Гучність'
+                            font_size: 23
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint: None, 1
+                            width: 100
+                            text_size: self.size
+                        Slider:
+                            min: 0
+                            max: 100
+                            value: 20
+                            on_value: root.volume(self.value)
+            #wb2 global
+            RoundBox:
+                padding: 15
+                orientation: 'vertical'
+                box_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                r: 10
+                Label:
+                    id: general_text
+                    text: 'Загальне'
+                    font_size: 30
+                    bold: True
+                    color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                    size_hint: 1, None
+                    height: 30
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                #ins2
+                BoxLayout:
+                    size_hint: 1, 0.8
+                    orientation: 'vertical'
+                    pos_hint: {'center_x': 0.5}
+                    #bg1
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        spacing: 15
+                        Image:
+                            source: 'image/globe.png' if app.theme == 'light' else 'image/globe_white.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: language_text
+                            text: 'Мова'
+                            font_size: 23
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint_x: 1
+                            size_hint_y: 1
+                            text_size: self.size
+                        Spinner:
+                            text: 'Українська'
+                            values: 'Українська', 'English'
+                            size_hint: None, 1
+                            width: 125
+                            on_text: root.change_language(self.text)
+                    #bg2
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        spacing: 15
+                        Image:
+                            source: 'image/art.png' if app.theme == 'light' else 'image/art_white.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: topic_text
+                            text: 'Тема'
+                            font_size: 23
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint_x: 1
+                            size_hint_y: 1
+                            text_size: self.size
+                        Spinner:
+                            id: topic_spinner
+                            text: 'Світла'
+                            values: 'Світла', 'Темна'
+                            size_hint: None, 1
+                            width: 125
+                            on_text: app.change_theme(self.text)
+                    #bg3
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint: 1, None
+                        height: 40
+                        padding: 0, 0, 30, 0
+                        spacing: 15
+                        Image:
+                            source: 'image/vibrate-mode.png' if app.theme == 'light' else 'image/vibrate-mode_white.png'
+                            size_hint: None, 1
+                            width: 35
+                        Label:
+                            id: vibration_text
+                            text: 'Вібрація'
+                            font_size: 23
+                            bold: True
+                            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                            halign: 'left'
+                            valign: 'middle'
+                            size_hint: 1, 1
+                            text_size: self.size
+                        Switch:
+                            size_hint: None, 1
+                            width: 49
+                            active: True
+
+            #wb3 other
+            RoundBox:
+                padding: 15
+                orientation: 'vertical'
+                box_color: (1, 1, 1, 1) if app.theme == 'light' else (0.165, 0.184, 0.220, 1)
+                r: 10
+                Label:
+                    id: other_text
+                    text: 'Інше'
+                    font_size: 30
+                    bold: True
+                    color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+                    size_hint: 1, None
+                    height: 30
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                #ins3
+                BoxLayout:
+                    size_hint: 1, 0.8
+                    orientation: 'vertical'
+                    pos_hint: {'center_x': 0.5}
+                    Button:
+                    Button:
+                    Button:

@@ -1,0 +1,42 @@
+<RoundedButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgb: (0, 100/255, 200/255) if self.state == 'down' else (0, 132/255, 255/255)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [360]
+
+<GameScreen>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'image/bg_game.png'
+    FloatLayout:
+        Label:
+            id: score_text
+            text: 'Рахунок'
+            bold: True
+            font_size: 35
+            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        Label:
+            text: str(root.count)
+            bold: True
+            font_size: 65
+            color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+        RoundedButton:
+            text: ''
+            size_hint: 0.65, 0.35
+            size_hint_max_x: 400
+            pos_hint: {'center_x': 0.5, 'center_y': 0.55}
+            on_press: root.add_score()
+            Image:
+                source: 'image/click.png' if app.theme == 'light' else 'image/click_white.png'
+                center: self.parent.center
+                size: self.parent.width * 0.7, self.parent.height * 0.7
+                pos: self.parent.center_x - self.width / 2, self.parent.center_y - self.height / 2
