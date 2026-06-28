@@ -14,25 +14,25 @@
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'image/bg_game.png'
+            source: 'image/bg_game.png' if app.theme == 'light' else 'image/bg_game_dark.png'
     FloatLayout:
         Label:
             id: score_text
             text: 'Рахунок'
             bold: True
-            font_size: 35
+            font_size: self.height * 0.06
             color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
             pos_hint: {'center_x': 0.5, 'center_y': 0.9}
         Label:
             text: str(root.count)
             bold: True
-            font_size: 65
+            font_size: self.height * 0.06
             color: (0, 0, 0, 1) if app.theme == 'light' else (0.949, 0.949, 0.949, 1)
             pos_hint: {'center_x': 0.5, 'center_y': 0.8}
         RoundedButton:
             text: ''
-            size_hint: 0.65, 0.35
-            size_hint_max_x: 400
+            size_hint: None, None
+            size: min(self.parent.width, self.parent.height) * 0.6, min(self.parent.width, self.parent.height) * 0.6
             pos_hint: {'center_x': 0.5, 'center_y': 0.55}
             on_press: root.add_score()
             Image:

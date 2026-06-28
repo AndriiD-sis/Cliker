@@ -11,11 +11,11 @@ from kivy.uix.switch import Switch
 from kivy.uix.slider import Slider
 from kivy.uix.image import Image
 from kivy.uix.spinner import Spinner
+from kivy.utils import platform
 from kivy.lang import Builder
 
-Window.size = (360, 640)
-
 Builder.load_file('bar.kv')
+Builder.load_file('shop.kv')
 Builder.load_file('settings.kv')
 Builder.load_file('game.kv')
 
@@ -59,26 +59,14 @@ class GameScreen(BarScreen):
     count = NumericProperty(0)
     def add_score(self):
         app = App.get_running_app()
-        if app.sound_enabled:
-            sound = SoundLoader.load('sound/sound_click.mp3')
-            sound.volume = 0.2
-            sound.play()
+        if app.sound_enabled and app.click_sound:
+            app.click_sound.seek(0)
+            app.click_sound.play()
         self.count += 1
    
 #МАГАЗИН
 class ShopScreen(BarScreen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        layout = FloatLayout()
-        
-        label = Label(text='Shop Screen',
-                      bold=True,
-                      font_size=35,
-                      color=(1, 0, 0),
-                      pos=(0, 0))
-        
-        layout.add_widget(label)
-        self.add_widget(layout)
+    pass
 
 #НАЛАШТУВАННЯ
 class SettingsScreen(BarScreen):
@@ -92,6 +80,7 @@ class SettingsScreen(BarScreen):
         App.get_running_app().sound_enabled = value
     def volume(self, value):
         App.get_running_app().music.volume = value / 100
+        App.get_running_app().click_sound.volume = value / 100
     def change_language(self, value):
         app = App.get_running_app()
         app.lang = app.LANGUAGES[value]
@@ -113,7 +102,11 @@ class MediumApp(App):
                                 'vibration': 'Вібрація',
                                 'other': 'Інше',
                                 'light': 'Світла',
-                                'dark': 'Темна'},
+                                'dark': 'Темна',
+                                'exit_question': 'Вийти з гри?',
+                                'exit_confirm': 'Ви дійсно хочете вийти?',
+                                'yes': 'Так!',
+                                'no': 'Ні!'},
                 'English': {'score': 'Score',
                             'settings': 'Settings',
                             'sound': 'Sound',
@@ -126,15 +119,25 @@ class MediumApp(App):
                             'vibration': 'Vibration',
                             'other': 'Other',
                             'light': 'Light',
-                            'dark': 'Dark'}}
+                            'dark': 'Dark',
+                            'exit_question': 'Exit the game?',
+                            'exit_confirm': 'Do you really want to leave?',
+                            'yes': 'Yes!',
+                            'no': 'No!'}}
     def build(self):
+        if platform == 'android' or platform == 'ios':
+            Window.fullscreen = 'auto'
+        else:
+            Window.size = (360, 640)
         Window.clearcolor = (0.9, 0.9, 0.9)
         self.lang = self.LANGUAGES['Українська']
-        self.sound_enabled = True 
+        self.sound_enabled = True
+        self.click_sound = SoundLoader.load('sound/sound_click.mp3')
+        self.click_sound.volume = 0.2
         self.music = SoundLoader.load('sound/Lobby_Time.mp3')
         self.music.loop = True
         self.music.volume = 0.2
-        #self.music.play()
+        self.music.play()
         sm = ScreenManager()
         self.title = 'Clicker'
         sm.add_widget(GameScreen(name='game'))
@@ -142,6 +145,12 @@ class MediumApp(App):
         sm.add_widget(SettingsScreen(name='settings'))
         return sm
     def update_language(self):
+        for screen_name in ('game', 'shop', 'settings'):
+            screen = self.root.get_screen(screen_name)
+            screen.ids.exit_text.text = self.lang['exit_question']
+            screen.ids.exit_text_2.text = self.lang['exit_confirm']
+            screen.ids.yes_button.text = self.lang['yes']
+            screen.ids.no_button.text = self.lang['no']
         game = self.root.get_screen('game')
         game.ids.score_text.text = self.lang['score']
         settings = self.root.get_screen('settings')
